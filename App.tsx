@@ -5,10 +5,12 @@ import { createStaticNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import Home from './telas/Home';
+import ListarClientes from './telas/ListarClientes';
 
 const RootStack = createNativeStackNavigator({
   screens: {
     Home: Home,
+    ListarClientes:ListarClientes
   },
 });
 

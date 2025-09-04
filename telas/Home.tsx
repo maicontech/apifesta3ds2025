@@ -1,13 +1,19 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
+import {useNavigation} from '@react-navigation/native';
+
 export default function Home() {
+
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <Text style={styles.titulo}>Gerenciador de Festa</Text>
 
       <View style={styles.bloco}>
 
-          <TouchableOpacity style={styles.btn}>
+          <TouchableOpacity style={styles.btn}
+            onPress={()=>navigation.navigate('ListarClientes' as never)}
+          >
               <Text style={styles.txtBtn}>Clientes</Text>
           </TouchableOpacity>
 
