@@ -12,7 +12,6 @@ export default function ListarClientes() {
     async function buscaClientes(){
         const resposta = await api.get('clientes');
         setDados(resposta.data);
-        console.warn("tetse");
     }
 
     useEffect(
@@ -37,7 +36,6 @@ export default function ListarClientes() {
                 renderItem={({item})=><Cliente nome={item.nome} cpf={item.cpf} saldo={item.saldo} id={item.id}/>}
                 style={styles.lista}
             />
-
         </View>       
     </>   
   );
