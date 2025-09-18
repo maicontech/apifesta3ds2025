@@ -1,17 +1,30 @@
 import { useState, useEffect } from 'react';
-import { View, FlatList, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, FlatList, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 
 import Cliente from '../components/Cliente';
 
 import api from '../components/Api';
 
+import { useNavigation } from '@react-navigation/native';
+
 export default function ListarClientes() {
 
-    const [dados, setDados] = useState<any[]>([]);
+  const navigation = useNavigation();
+
+    const [clientes, setCliente] = useState<any[]>([]);
 
     async function buscaClientes(){
-        const resposta = await api.get('clientes');
-        setDados(resposta.data);
+        const response = await api.get('clientes');
+        setCliente(response.data);
+    }
+    async function excluirCliente(id:number){
+      try{
+        await api.delete(`clientes/${id}`);
+        Alert.alert('Sucesso', 'Cliente excluido com sucesso!');
+        setCliente(clientes.filter(c => c.id !== id));
+      } catch (error) {
+        Alert.alert('Erro', 'Não foi possivel excluir o cliente.');
+      }
     }
 
     useEffect(
@@ -21,19 +34,17 @@ export default function ListarClientes() {
     );
  return (
     <>
-        <View style={styles.bloco}>
-            <TouchableOpacity style={styles.btn}>
-                <Text style={styles.txtBtn}>Cadastrar Novo Cliente</Text>
-            </TouchableOpacity>
-        </View>
-
-        <View style={styles.bloco}>
-            <Text style={styles.titulo}> Lista de Clientes </Text>
+        <View style={styles.container}>
+            <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('TelaCad' as never)}>
+                <Text style={styles.txtBtn}>Cadastrar Cliente</Text>
+            </TouchableOpacity>      
 
             <FlatList 
-                data={dados}
+                data={clientes}
                 keyExtractor={(item)=>item.id}
-                renderItem={({item})=><Cliente nome={item.nome} cpf={item.cpf} saldo={item.saldo} id={item.id}/>}
+                renderItem={({item})=><Cliente nome={item.nome} 
+                cpf={item.cpf} saldo={item.saldo} id={item.id}
+                onDelete={excluirCliente}/>}
                 style={styles.lista}
             />
         </View>       
@@ -42,6 +53,12 @@ export default function ListarClientes() {
 }
 
 const styles = StyleSheet.create({
+  container:{
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems:'center',
+    justifyContent:'center',
+  },
   titulo:{
     fontSize:20,
     fontWeight:'bold',
@@ -65,6 +82,7 @@ const styles = StyleSheet.create({
   },
   lista:{
     width:'80%',
-    height:'70%'
+    height:'70%',
+    margin:'10%'
   }
 });

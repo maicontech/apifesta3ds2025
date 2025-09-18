@@ -1,12 +1,13 @@
-import { useState, useEffect } from "react";
-import {View, FlatList, StyleSheet, TouchableOpacity, Text, TextInput} from 'react-native'
-import Cliente from '../components/Cliente';
-import api from '../components/Api';
-
+import { useState } from "react";
+import {View, StyleSheet, TouchableOpacity, Text, TextInput} from 'react-native'
 
 import { useNavigation } from "@react-navigation/native";
 
+import api from '../components/Api';
+
 export default function TelaCad() {
+
+    const navigation = useNavigation();
     
     const [nome, setNome] = useState('');
     const [cpf, setCpf] = useState('');
@@ -45,7 +46,7 @@ export default function TelaCad() {
                                     alert(JSON.stringify(resp.data.message));
                                     navigation.navigate('ListarClientes' as never);
                                 }catch{
-                                    alert("DEUU B.O!!!")
+                                    alert("deu erro!!!")
                                 }
                             }}
 
@@ -63,6 +64,28 @@ export default function TelaCad() {
 const styles = StyleSheet.create({
     container:{
         flex: 1,
+        backgroundColor:'#fff',
+        alignItems:'center',
+        justifyContent:'center',
+    },
+    titulo:{
+        fontSize:30,
+        fontWeight:'bold'
+    },
+    bloco:{
+        marginLeft:'10%',
+        marginRight:'10%',
+        width:'80%',
+    },
+    btn:{
+        backgroundColor:'#6691d6ff',
+        width:'100%',
+        marginTop:20,
+        borderRadius:20,
+    },
+    txtBtn:{
+        textAlign:'center',
+        fontSize:25,
     },
 
 })
